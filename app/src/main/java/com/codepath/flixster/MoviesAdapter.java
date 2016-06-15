@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codepath.flixster.models.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -17,8 +18,7 @@ import java.util.ArrayList;
  * Created by klimjinx on 6/15/16.
  */
 public class MoviesAdapter extends ArrayAdapter<Movie> {
-
-    // K: the red line under line 9 b/c no constructor, so added this
+    
     public MoviesAdapter(Context context, ArrayList<Movie> movies) {
         // K: params are context, resource layout, data
         super(context, R.layout.item_movie, movies);
@@ -41,13 +41,13 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
         ImageView ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
 
         // Populate the data into the template view using the data object
-        tvTitle.setText(movie.title);
+        tvTitle.setText(movie.getTitle());
 
         // debug log, and param is 1)string for easy finding 2)what to print out
         Log.d("MoviesAdapter", "Position: " + position);
 
         // Loading a remote image thru URL
-        String imageUri = "https://i.imgur.com/tGbaZCY.jpg";
+        String imageUri = "https://image.tmdb.org/t/p/w342" + movie.getPoster_path();
         Picasso.with(getContext()).load(imageUri).into(ivPoster);
 
         // Return the completed view to render on screen
