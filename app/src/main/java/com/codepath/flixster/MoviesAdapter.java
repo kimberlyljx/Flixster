@@ -1,6 +1,7 @@
 package com.codepath.flixster;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,13 @@ import java.util.ArrayList;
  */
 public class MoviesAdapter extends ArrayAdapter<Movie> {
 
+    // View Lookup Cache
+    private static class ViewHolder {
+        TextView tvTitle;
+        TextView tvOverview;
+        ImageView ivPoster;
+    }
+
     public MoviesAdapter(Context context, ArrayList<Movie> movies) {
         // K: params are context, resource layout, data
         super(context, R.layout.item_movie, movies);
@@ -31,26 +39,38 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
         Movie movie = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
+        ViewHolder viewHolder; // view lookup cache stored in tag
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_movie, parent, false);
+            viewHolder = new ViewHolder();
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.item_movie, parent, false);
+            // Lookup view for data population
+            // K: convertView.findViewById take the whole xml thing and find the thing in it
+            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
+            viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
+            viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        // Lookup view for data population
-        // K: convertView.findViewById take the whole xml thing and find the thing in it
-        TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-        TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-        ImageView ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
-
         // clear out image from convert view
-        ivPoster.setImageResource(0);
+        viewHolder.ivPoster.setImageResource(0);
 
         // Populate the data into the template view using the data object
-        tvTitle.setText(movie.getTitle());
-        tvOverview.setText(movie.getOverview());
+        viewHolder.tvTitle.setText(movie.getTitle());
+        viewHolder.tvOverview.setText(movie.getOverview());
 
+        String imageUri;
         // Loading a remote image thru URL
-        String imageUri = "https://image.tmdb.org/t/p/w342" + movie.getPoster_path();
-        Picasso.with(getContext()).load(imageUri).into(ivPoster);
+        //
+        if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            imageUri = "https://image.tmdb.org/t/p/w342" + movie.getBackdrop_path();
+        } else {
+            imageUri = "https://image.tmdb.org/t/p/w342" + movie.getPoster_path();
+        }
+
+        Picasso.with(getContext()).load(imageUri).into(viewHolder.ivPoster);
 
         // debug log, and param is 1)string for easy finding 2)what to print out
         Log.d("MoviesAdapter", "Position: " + position);
