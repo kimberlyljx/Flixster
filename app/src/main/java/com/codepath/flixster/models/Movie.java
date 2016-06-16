@@ -15,6 +15,11 @@ public class Movie {
     private String title;
     private String poster_path;
     private String overview;
+    private String backdrop_path;
+
+    public String getBackdrop_path() {
+        return backdrop_path;
+    }
 
     public String getTitle() {
         return title;
@@ -30,6 +35,7 @@ public class Movie {
         this.title = jsonObject.getString("title");
         this.poster_path = jsonObject.getString("poster_path");
         this.overview = jsonObject.getString("overview");
+        this.backdrop_path = jsonObject.getString("backdrop_path");
     }
 
     // Decodes array of movies json results into movie model objects
