@@ -13,29 +13,47 @@ public class Movie {
 
 
     private String title;
-    private String poster_path;
+    private String posterPath;
     private String overview;
-    private String backdrop_path;
+    private String backdropPath;
+    private double popularity;
+    private double vote_average;
+    private int id;
 
-    public String getBackdrop_path() {
-        return backdrop_path;
+    public int getId() {
+        return id;
+    }
+
+    public double getVote_average() {
+        return vote_average;
+    }
+
+    public double getPopularity() {
+        return popularity;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getPoster_path() {
-        return poster_path;
+    public String getPosterPath() {
+        return posterPath;
     }
 
     public String getOverview() { return overview; }
 
     public Movie(JSONObject jsonObject) throws JSONException{
         this.title = jsonObject.getString("title");
-        this.poster_path = jsonObject.getString("poster_path");
+        this.posterPath = jsonObject.getString("poster_path");
         this.overview = jsonObject.getString("overview");
-        this.backdrop_path = jsonObject.getString("backdrop_path");
+        this.backdropPath = jsonObject.getString("backdrop_path");
+        this.popularity = jsonObject.getDouble("popularity");
+        this.id = jsonObject.getInt("id");
+        this.vote_average = jsonObject.getDouble("vote_average");
     }
 
     // Decodes array of movies json results into movie model objects
