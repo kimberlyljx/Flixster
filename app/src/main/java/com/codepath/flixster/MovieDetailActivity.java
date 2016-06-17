@@ -1,5 +1,6 @@
 package com.codepath.flixster;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -12,7 +13,6 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,13 +20,11 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cz.msebera.android.httpclient.entity.mime.Header;
-import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class MovieDetailActivity extends YouTubeBaseActivity {
     @BindView(R.id.tvMovieDetailTitle) TextView tvTitle;
     @BindView(R.id.tvMovieDetailOverview) TextView tvOverview;
-    @BindView(R.id.rbMovieDetailRating) RatingBar rbRating;
+
     @BindView(R.id.ivMovieDetailPic) ImageView ivMovieDetailPic;
 
     @Override
@@ -42,26 +40,31 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
         Double vote_average = getIntent().getDoubleExtra("vote_average", 0.00); // 0.00 default
         int id = getIntent().getExtras().getInt("id");
 
-        String imageUri;
-        // Loading a remote image thru URL
-        imageUri = "https://image.tmdb.org/t/p/w342" + backdropPath;
-        Picasso.with(this).load(imageUri)
-                .placeholder(R.drawable.movie_placeholder)
-                .transform(new RoundedCornersTransformation(15, 15))
-                .resize(500, 0)
-                .into(ivMovieDetailPic);
+//        String imageUri;
+//        // Loading a remote image thru URL
+//        imageUri = "https://image.tmdb.org/t/p/w342" + backdropPath;
+//        Picasso.with(this).load(imageUri)
+//                .placeholder(R.drawable.movie_placeholder)
+//                .transform(new RoundedCornersTransformation(15, 15))
+//                .resize(500, 0)
+//                .into(ivMovieDetailPic);
 
-        tvTitle.setText(movieTitle);
-        tvOverview.setText(movieOverview);
-        float rating = vote_average.floatValue();
-        rbRating.setRating(rating) ;
+        // Loading a remote image thru URL
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            tvTitle.setText(movieTitle);
+            tvOverview.setText(movieOverview);
+            float rating = vote_average.floatValue();
+            RatingBar rbRating = (RatingBar) findViewById(R.id.rbMovieDetailRating);
+            rbRating.setRating(rating) ;
+        }
 
         // 2. Get the actual movies
         String URL = "http://api.themoviedb.org/3/movie/" + id + "/videos" + "?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(URL, new JsonHttpResponseHandler() {
+        AsyncHttpClient clientMovie = new AsyncHttpClient();
+        clientMovie.get(URL, new JsonHttpResponseHandler() {
 
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 JSONArray movieVideosJSON = null;
                 try {
                     movieVideosJSON = response.getJSONArray("results");
@@ -70,33 +73,34 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
                     YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.player);
 
                     youTubePlayerView.initialize("AIzaSyDoJBDU7XVpoLPK8J_NaPlj1ZwAzmu363E",
-                    new YouTubePlayer.OnInitializedListener() {
-                    @Override
-                    public void onInitializationSuccess(YouTubePlayer.Provider provider,
-                                                        YouTubePlayer youTubePlayer, boolean b) {
-
-                        // do any work here to cue video, play video, etc.
-                        try {
-                            youTubePlayer.cueVideo(movieVideo.getString("key"));
-                            youTubePlayer.loadVideo(movieVideo.getString("key"));
-                            Log.d("DEBUG", movieVideo.getString("key").toString());
-                        } catch (JSONException e) {
-                            Log.d("DEBUG", "No movie string");
-                        }
-                    }
-                    @Override
-                    public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                                        YouTubeInitializationResult youTubeInitializationResult) {
-                        Log.d("DEBUG", "Failed to initialize");
-                    }
-                });
+                            new YouTubePlayer.OnInitializedListener() {
+                                @Override
+                                public void onInitializationSuccess(YouTubePlayer.Provider provider,
+                                                                    YouTubePlayer youTubePlayer, boolean b) {
+                                    // do any work here to cue video, play video, etc.
+                                    try {
+                                        youTubePlayer.cueVideo(movieVideo.getString("key"));
+                                        Log.d("DEBUG", movieVideo.getString("key"));
+                                    } catch (JSONException e) {
+                                        Log.d("DEBUG", "No movie string");
+                                    }
+                                }
+                                @Override
+                                public void onInitializationFailure(YouTubePlayer.Provider provider,
+                                                                    YouTubeInitializationResult youTubeInitializationResult) {
+                                    Log.d("DEBUG", "Failed to initialize");
+                                }
+                            });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-            public void onFailure(Throwable e) {
-                Log.d("DEBUG", "Player error: " + e.toString());
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("DEBUG", "Player error: " + throwable.toString());
             }
+
         });
     }
 }

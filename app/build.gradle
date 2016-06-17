@@ -34,5 +34,7 @@ dependencies {
     // If you want to use the GPU Filters
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 
+    compile 'com.ms-square:expandableTextView:0.1.4'
+
     compile files('libs/YouTubeAndroidPlayerApi.jar')
 }

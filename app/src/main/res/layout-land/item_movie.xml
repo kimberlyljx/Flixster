@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
 
     <ImageView
         android:layout_width="300dp"
@@ -21,24 +22,42 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="3dp"
         tools:text="Large Text"
         android:id="@+id/tvTitle"
-        android:textSize="26sp"
-        android:padding="5dp"
+        android:padding="3dp"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivPoster"
         android:layout_toEndOf="@+id/ivPoster" />
 
-    <TextView
+    <com.ms.square.android.expandabletextview.ExpandableTextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/expand_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Overview"
-        android:id="@+id/tvOverview"
+        android:layout_toEndOf="@+id/ivPoster"
+        expandableTextView:maxCollapsedLines="10"
+        expandableTextView:animDuration="200"
         android:layout_below="@+id/tvTitle"
-        android:padding="5dp"
-        android:paddingTop="5dp"
-        android:layout_toRightOf="@+id/ivPoster"
-        android:layout_toEndOf="@+id/ivPoster" />
+        android:layout_toRightOf="@+id/ivPoster">
+        <TextView
+            android:id="@id/expandable_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#666666" />
+        <ImageButton
+            android:id="@id/expand_collapse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_gravity="right|bottom"
+            android:background="@android:color/transparent"/>
+    </com.ms.square.android.expandabletextview.ExpandableTextView>
 
 </RelativeLayout>
