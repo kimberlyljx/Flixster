@@ -6,7 +6,7 @@
 
     <ImageView
         android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:id="@+id/ivPoster"
         tools:src="@mipmap/ic_launcher"
         android:paddingTop="10dp"
@@ -23,7 +23,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         tools:text="Large Text"
         android:id="@+id/tvTitle"
-        android:textSize="26sp"
+        android:textSize="20sp"
         android:padding="5dp"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivPoster"
