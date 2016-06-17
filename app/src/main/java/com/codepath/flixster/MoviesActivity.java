@@ -19,24 +19,24 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class MoviesActivity extends AppCompatActivity {
-
-    private SwipeRefreshLayout swipeContainer;
     ArrayList<Movie> boxMovies;
-    ListView lvMovies;
     MoviesAdapter adapter;
+
+    // Lookup the swipe container view
+    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+    // Get the ListView we want to populate
+    @BindView(R.id.lvMovies) ListView lvMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
-
-        // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        // 1. Get the ListView we want to populate
-        lvMovies= (ListView) findViewById(R.id.lvMovies); // must cast
+        ButterKnife.bind(this);
 
         // 2. Get the actual movies
         String URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
@@ -50,10 +50,9 @@ public class MoviesActivity extends AppCompatActivity {
                     boxMovies = Movie.fromJson(moviesJSON);
                     Log.d("DEBUG", boxMovies.toString());
 
-                    // 3. Create ArrayAdapter (adapter takes the data and maps it to the view)
+                    // Create ArrayAdapter (adapter takes the data and maps it to the view)
                     adapter = new MoviesAdapter(getBaseContext(), boxMovies);
-
-                    // 4. Associate Adapter with the ListView
+                    // Associate Adapter with the ListView
                     if (lvMovies != null) {
                         lvMovies.setAdapter(adapter);
                     }
@@ -97,28 +96,27 @@ public class MoviesActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Remember to CLEAR OUT old items before appending in the new ones
                 adapter.clear();
-
                 JSONArray moviesJSON = null;
                 try {
                     moviesJSON = response.getJSONArray("results");
                     boxMovies = Movie.fromJson(moviesJSON);
                     Log.d("DEBUG", boxMovies.toString());
 
-                    // 3. Create ArrayAdapter (adapter takes the data and maps it to the view)
+                    // Create ArrayAdapter (adapter takes the data and maps it to the view)
                     adapter = new MoviesAdapter(getBaseContext(), boxMovies);
-
-                    // 4. Associate Adapter with the ListView
+                    // Associate Adapter with the ListView
                     if (lvMovies != null) {
                         lvMovies.setAdapter(adapter);
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 // Now we call setRefreshing(false) to signal refresh has finished
                 swipeContainer.setRefreshing(false);
-            }
 
+            }
             public void onFailure(Throwable e) {
                 Log.d("DEBUG", "Fetch timeline error: " + e.toString());
             }
@@ -130,7 +128,6 @@ public class MoviesActivity extends AppCompatActivity {
 
     // for setting up the listener
     private void setupListViewListener() {
-
         // when short-clicked, taken to the Edit form screen for that item
         lvMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -139,7 +136,6 @@ public class MoviesActivity extends AppCompatActivity {
                 Intent i = new Intent(MoviesActivity.this, MovieDetailActivity.class);
                 // pass position, ratings using RatingBar, popularity, and synopsis
                 Movie currentMovie = boxMovies.get(position);
-
                 i.putExtra("title", currentMovie.getTitle());
                 i.putExtra("backdrop_path", currentMovie.getBackdropPath());
                 i.putExtra("overview", currentMovie.getOverview());
@@ -149,19 +145,5 @@ public class MoviesActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-//        lvMovies.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapter,
-//                                           View item, int pos, long id ) {
-//                //Removes that item
-//                items.remove(pos);
-//                //Refreshes the adapter
-//                itemsAdapter.notifyDataSetChanged();
-//                writeItems();
-//                return true;
-//            }
-//        });
     }
-
 }

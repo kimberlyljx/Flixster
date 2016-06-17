@@ -48,6 +48,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
         Picasso.with(this).load(imageUri)
                 .placeholder(R.drawable.movie_placeholder)
                 .transform(new RoundedCornersTransformation(15, 15))
+                .resize(500, 0)
                 .into(ivMovieDetailPic);
 
         tvTitle.setText(movieTitle);
@@ -77,6 +78,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
                         // do any work here to cue video, play video, etc.
                         try {
                             youTubePlayer.cueVideo(movieVideo.getString("key"));
+                            youTubePlayer.loadVideo(movieVideo.getString("key"));
                             Log.d("DEBUG", movieVideo.getString("key").toString());
                         } catch (JSONException e) {
                             Log.d("DEBUG", "No movie string");

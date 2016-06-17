@@ -73,17 +73,13 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
         switch(viewType)
         {
             case 0:
-                // Get the data item for this position
-                movie = getItem(position);
+                movie = getItem(position); // Get the data item for this position
 
                 // Check if an existing view is being reused, otherwise inflate the view
                 if (convertView == null) {
                     // Inflate XML layout based on the type
                     convertView = getInflatedLayoutForType(viewType);
                     viewHolder = new ViewHolder();
-
-//            LayoutInflater inflater = LayoutInflater.from(getContext());
-//            convertView = inflater.inflate(R.layout.item_movie, parent, false);
 
                     // Lookup view for data population
                     viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
@@ -102,7 +98,6 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
                         .placeholder(R.drawable.movie_placeholder)
                         .into(viewHolder.ivPoster);
 
-
                 // return the created view
                 return convertView;
 
@@ -115,9 +110,6 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
                     // Inflate XML layout based on the type
                     convertView = getInflatedLayoutForType(viewType);
                     viewHolder = new ViewHolder();
-
-//            LayoutInflater inflater = LayoutInflater.from(getContext());
-//            convertView = inflater.inflate(R.layout.item_movie, parent, false);
 
                     // Lookup view for data population
                     viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
@@ -152,7 +144,7 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
 
             default:
                 //Throw exception, unknown data type
-                return convertView;
+                throw new UnknownError("Cannot determine type");
         }
     }
 }
