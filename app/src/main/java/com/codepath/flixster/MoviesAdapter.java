@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.flixster.models.Movie;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
         TextView tvTitle;
         TextView tvOverview;
         ImageView ivPoster;
+        ExpandableTextView expandableTextView;
     }
 
     // Returns the number of types of Views that will be created by getView(int, View, ViewGroup)
@@ -83,6 +85,7 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
 
                     // Lookup view for data population
                     viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
+
                     convertView.setTag(viewHolder);
                 } else {
                     viewHolder = (ViewHolder) convertView.getTag();
@@ -114,8 +117,11 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
                     // Lookup view for data population
                     viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
                     viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-                    viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
+                    viewHolder.expandableTextView = (ExpandableTextView) convertView.findViewById(R.id.expand_text_view);
+                    //viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
+
                     convertView.setTag(viewHolder);
+
                 } else {
                     viewHolder = (ViewHolder) convertView.getTag();
                 }
@@ -124,7 +130,9 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
                 viewHolder.ivPoster.setImageResource(0);
                 // Populate the data into the template view using the data object
                 viewHolder.tvTitle.setText(movie.getTitle());
-                viewHolder.tvOverview.setText(movie.getOverview());
+
+                // Deprecate because of collapsible
+//                viewHolder.tvOverview.setText(movie.getOverview());
 
                 // Loading a remote image thru URL
                 if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
@@ -132,12 +140,15 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
                 } else {
                     imageUri = "https://image.tmdb.org/t/p/w342" + movie.getPosterPath();
                 }
+
                 // clear out image from convert view
                 viewHolder.ivPoster.setImageResource(0);
                 Picasso.with(getContext()).load(imageUri)
                         .placeholder(R.drawable.movie_placeholder)
                         .transform(new RoundedCornersTransformation(15, 15))
                         .into(viewHolder.ivPoster);
+
+                viewHolder.expandableTextView.setText(movie.getOverview());
 
                 // return the created view
                 return convertView;

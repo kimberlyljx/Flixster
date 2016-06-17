@@ -26,24 +26,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/tvMovieDetailTitle"
         android:layout_below="@+id/ivMovieDetailPic"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rbMovieDetailRating"
-        android:layout_below="@+id/tvMovieDetailTitle"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Overview"
+        android:text=""
         android:id="@+id/tvMovieDetailOverview"
         android:layout_below="@+id/rbMovieDetailRating"
         android:layout_alignParentLeft="true"
