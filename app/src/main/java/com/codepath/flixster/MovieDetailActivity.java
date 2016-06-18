@@ -3,7 +3,6 @@ package com.codepath.flixster;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -25,8 +24,6 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
     @BindView(R.id.tvMovieDetailTitle) TextView tvTitle;
     @BindView(R.id.tvMovieDetailOverview) TextView tvOverview;
 
-    @BindView(R.id.ivMovieDetailPic) ImageView ivMovieDetailPic;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +36,6 @@ public class MovieDetailActivity extends YouTubeBaseActivity {
         String backdropPath = getIntent().getStringExtra("backdrop_path");
         Double vote_average = getIntent().getDoubleExtra("vote_average", 0.00); // 0.00 default
         int id = getIntent().getExtras().getInt("id");
-
-//        String imageUri;
-//        // Loading a remote image thru URL
-//        imageUri = "https://image.tmdb.org/t/p/w342" + backdropPath;
-//        Picasso.with(this).load(imageUri)
-//                .placeholder(R.drawable.movie_placeholder)
-//                .transform(new RoundedCornersTransformation(15, 15))
-//                .resize(500, 0)
-//                .into(ivMovieDetailPic);
 
         // Loading a remote image thru URL
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){

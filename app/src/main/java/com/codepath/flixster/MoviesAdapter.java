@@ -95,7 +95,7 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
                 viewHolder.ivPoster.setImageResource(0);
 
                 // Loading a remote image thru URL
-                imageUri = "https://image.tmdb.org/t/p/w342" + movie.getBackdropPath();
+                imageUri = "https://image.tmdb.org/t/p/w780" + movie.getBackdropPath();
                 Picasso.with(getContext()).load(imageUri)
                         .transform(new RoundedCornersTransformation(15, 15))
                         .placeholder(R.drawable.movie_placeholder)
@@ -136,9 +136,9 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
 
                 // Loading a remote image thru URL
                 if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-                    imageUri = "https://image.tmdb.org/t/p/w342" + movie.getBackdropPath();
+                    imageUri = "https://image.tmdb.org/t/p/w780" + movie.getBackdropPath();
                 } else {
-                    imageUri = "https://image.tmdb.org/t/p/w342" + movie.getPosterPath();
+                    imageUri = "https://image.tmdb.org/t/p/w780" + movie.getPosterPath();
                 }
 
                 // clear out image from convert view
