@@ -43,7 +43,8 @@ Did not use correctly override onSuccess method for API call.
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
-
+- [ExpandableTextView]  (https://github.com/Manabu-GT/ExpandableTextView#expandabletextview) - Expanding Text View
+- 
 ## License
 
     Copyright [2016] [Kimberly Jinxia Lim]
