@@ -7,16 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#CC000000"
     tools:context="com.codepath.flixster.MovieDetailActivity">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:src="@mipmap/ic_launcher"
-        android:adjustViewBounds="true"
-        android:id="@+id/ivMovieDetailPic"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
 
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/player"
@@ -27,9 +19,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
+        android:textColor="#CCFFFFFF"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/tvMovieDetailTitle"
-        android:layout_below="@+id/ivMovieDetailPic"
+        android:layout_below="@+id/player"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -38,7 +31,7 @@
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/tvMovieDetailOverview"
-        android:layout_below="@+id/rbMovieDetailRating"
+        android:layout_below="@+id/tvMovieDetailTitle"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
