@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/ivPoster"
-        expandableTextView:maxCollapsedLines="10"
+        expandableTextView:maxCollapsedLines="4"
         expandableTextView:animDuration="200"
         android:layout_below="@+id/tvTitle"
         android:layout_toRightOf="@+id/ivPoster">
